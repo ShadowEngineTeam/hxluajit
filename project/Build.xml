@@ -33,7 +33,7 @@
 
 		<section if="linux">
 			<lib name="${haxelib:hxluajit}/project/luajit/lib/Linux/libluajit-x86_64.a" if="HXCPP_M64" unless="HXCPP_ARM64" />
-			<lib name="${haxelib:hxluajit}/project/luajit/lib/Linux/libluajit-x86.a" if="HXCPP_M32" />
+			<lib name="${haxelib:hxluajit}/project/luajit/lib/Linux/libluajit-x86.a" if="HXCPP_M32" unless="HXCPP_ARMV7" />
 			<lib name="${haxelib:hxluajit}/project/luajit/lib/Linux/libluajit-arm64.a" if="HXCPP_ARM64" />
 			<lib name="${haxelib:hxluajit}/project/luajit/lib/Linux/libluajit-armv7.a" if="HXCPP_ARMV7" />
 		</section>
