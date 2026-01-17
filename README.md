@@ -1,6 +1,6 @@
 # hxluajit
 
-![](https://img.shields.io/github/repo-size/FNF-SE/hxluajit) ![](https://badgen.net/github/open-issues/FNF-SE/hxluajit) ![](https://badgen.net/badge/license/MIT/green) ![](https://badgen.net/badge/license/MIT/green)
+![](https://img.shields.io/github/repo-size/FNF-SE/hxluajit) ![](https://badgen.net/github/open-issues/FNF-SE/hxluajit) ![](https://badgen.net/badge/license/MIT/green)
 
 Haxe/hxcpp @:native bindings for [LuaJIT](https://luajit.org/luajit.html).
 
