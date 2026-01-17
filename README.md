@@ -1,18 +1,14 @@
 # hxluajit
 
-![](https://img.shields.io/github/repo-size/MAJigsaw77/hxluajit) ![](https://badgen.net/github/open-issues/MAJigsaw77/hxluajit) ![](https://badgen.net/badge/license/MIT/green)
+![](https://img.shields.io/github/repo-size/FNF-SE/hxluajit) ![](https://badgen.net/github/open-issues/FNF-SE/hxluajit) ![](https://badgen.net/badge/license/MIT/green) ![](https://badgen.net/badge/license/MIT/green)
 
 Haxe/hxcpp @:native bindings for [LuaJIT](https://luajit.org/luajit.html).
 
 ### Installation
 
-You can install it through `Haxelib`
+You can install it through `Git`
 ```bash
-haxelib install hxluajit
-```
-Or through `Git`, if you want the latest updates
-```bash
-haxelib git hxluajit https://github.com/MAJigsaw77/hxluajit.git
+haxelib git hxluajit https://github.com/FNF-SE/hxluajit.git
 ```
 
 ### Usage Example
@@ -21,7 +17,9 @@ Check out the [Examples Folder](examples/) for examples on how to use this libra
 
 ### Licensing
 
-**hxluajit** is made available under the **MIT License**. Check [LICENSE](./LICENSE) for more information.
+This **hxluajit fork** is licensed under the **MIT License**. See [LICENSE](LICENSE) for details.
+
+**hxluajit** is made available under the **MIT License**. Check [LICENSE-hxluajit](./LICENSE-hxluajit) for more information.
 
 ![](https://avatars.githubusercontent.com/u/11773774?s=200&v=4)
 
