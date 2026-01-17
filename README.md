@@ -19,7 +19,7 @@ Check out the [Examples Folder](examples/) for examples on how to use this libra
 
 This **hxluajit fork** is licensed under the **MIT License**. See [LICENSE](LICENSE) for details.
 
-**hxluajit** is made available under the **MIT License**. Check [LICENSE-hxluajit](./LICENSE-hxluajit) for more information.
+**hxluajit** is made available under the **MIT License**. Check [hxluajit's Licence](./LICENSE-hxluajit) for more information.
 
 ![](https://avatars.githubusercontent.com/u/11773774?s=200&v=4)
 
