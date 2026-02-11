@@ -1,6 +1,6 @@
 # hxluajit
 
-![](https://img.shields.io/github/repo-size/FNF-SE/hxluajit) ![](https://badgen.net/github/open-issues/FNF-SE/hxluajit) ![](https://badgen.net/badge/license/MIT/green)
+![](https://img.shields.io/github/repo-size/FunkinShadowTeam/hxluajit) ![](https://badgen.net/github/open-issues/FunkinShadowTeam/hxluajit) ![](https://badgen.net/badge/license/MIT/green)
 
 Haxe/hxcpp @:native bindings for [LuaJIT](https://luajit.org/luajit.html).
 
@@ -8,7 +8,7 @@ Haxe/hxcpp @:native bindings for [LuaJIT](https://luajit.org/luajit.html).
 
 You can install it through `Git`
 ```bash
-haxelib git hxluajit https://github.com/FNF-SE/hxluajit.git
+haxelib git hxluajit https://github.com/FunkinShadowTeam/hxluajit.git
 ```
 
 ### Usage Example
