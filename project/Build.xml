@@ -46,11 +46,11 @@
 		</section>
 
 		<section if="iphoneos">
-			<lib name="${haxelib:hxluajit}/project/luajit/lib/iOS/libluajit_device.a" if="HXCPP_ARM64" />
+			<lib name="${haxelib:hxluajit}/project/luajit/lib/iOS/libluajit_device.a" />
 		</section>
 
 		<section if="iphonesim">
-			<lib name="${haxelib:hxluajit}/project/luajit/lib/iOS/libluajit_sim.a" if="HXCPP_ARM64 || HXCPP_M64" />
+			<lib name="${haxelib:hxluajit}/project/luajit/lib/iOS/libluajit_sim.a" />
 		</section>
 	</target>
 </xml>
