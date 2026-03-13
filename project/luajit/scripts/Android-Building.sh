@@ -23,10 +23,10 @@ fi
 NDKBIN="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin"
 
 declare -A archs=(
-	["arm64"]="aarch64-linux-android- aarch64-linux-android21-clang -m64"
-	["armv7a"]="armv7a-linux-androideabi- armv7a-linux-androideabi21-clang -m32"
-	["x86_64"]="x86_64-linux-android- x86_64-linux-android21-clang -m64"
-	["x86"]="i686-linux-android- i686-linux-android21-clang -m32"
+	["arm64"]="aarch64-linux-android- aarch64-linux-android26-clang -m64"
+	["armv7a"]="armv7a-linux-androideabi- armv7a-linux-androideabi26-clang -m32"
+	["x86_64"]="x86_64-linux-android- x86_64-linux-android26-clang -m64"
+	["x86"]="i686-linux-android- i686-linux-android26-clang -m32"
 )
 
 build_arch()
