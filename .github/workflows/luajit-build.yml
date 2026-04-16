@@ -121,7 +121,7 @@ jobs:
               uses: actions/upload-artifact@main
               with:
                   name: MinGW-x86
-                  path: LuaJIT/build/x86
+                  path: LuaJIT/build/x86/x86
                   if-no-files-found: warn
     MacOS:
         runs-on: macos-latest
