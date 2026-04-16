@@ -11,9 +11,6 @@ elif [ "$ARCH" = "arm64" ]; then
 elif [ "$ARCH" = "armv7" ]; then
     MARCH="armv7-a+neon"
     MTUNE="cortex-a15"
-elif [ "$ARCH" = "x86_64" ]; then
-    MARCH="x86-64"
-    MTUNE="haswell"
 else
     MARCH="x86-64"
     MTUNE="haswell"
