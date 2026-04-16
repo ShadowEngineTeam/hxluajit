@@ -180,7 +180,7 @@ jobs:
               uses: actions/upload-artifact@main
               with:
                   name: Linux-x86
-                  path: LuaJIT/build/x86
+                  path: LuaJIT/build/x86/x86
                   if-no-files-found: warn
     Linux-x64:
         runs-on: ubuntu-latest
@@ -254,7 +254,7 @@ jobs:
               uses: actions/upload-artifact@main
               with:
                   name: Linux-armv7
-                  path: LuaJIT/build/armv7
+                  path: LuaJIT/build/armv7/armv7
                   if-no-files-found: warn
     iOS:
         runs-on: macos-latest
