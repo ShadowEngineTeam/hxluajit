@@ -42,7 +42,7 @@ build_arch()
 			TARGET_CFLAGS="-march=armv8-a"
 			;;
 		armv7a)
-			TARGET_CFLAGS="-mfloat-abi=hard -mfpu=neon-vfpv4 -march=armv7-a"
+			TARGET_CFLAGS="-mfloat-abi=softfp -mfpu=neon-vfpv4 -march=armv7-a"
 			;;
 		x86_64)
 			TARGET_CFLAGS="-march=x86-64 -mtune=haswell"
