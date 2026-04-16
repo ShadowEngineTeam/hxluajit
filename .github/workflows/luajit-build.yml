@@ -134,14 +134,22 @@ jobs:
                   users=runner
                   EOF'
 
+            - name: Copy files to chroot
+              run: |
+                  sudo mkdir -p /chroot/i386/repo
+                  sudo cp -r . /chroot/i386/repo/
+
             - name: Compiling
               run: |
                   sudo chroot /chroot/i386 /bin/bash -c "
                       apt-get update && apt-get install -y make gcc git
-                      cd ${{ github.workspace }}
+                      cd /repo
                       chmod +x project/luajit/scripts/Linux-Building.sh
                       ./project/luajit/scripts/Linux-Building.sh x86
                   "
+
+            - name: Copy artifacts from chroot
+              run: sudo cp -r /chroot/i386/repo/LuaJIT/build/x86 ./LuaJIT/build/x86
 
             - name: Upload Artifact
               uses: actions/upload-artifact@main
@@ -201,14 +209,22 @@ jobs:
                   users=runner
                   EOF'
 
+            - name: Copy files to chroot
+              run: |
+                  sudo mkdir -p /chroot/armhf/repo
+                  sudo cp -r . /chroot/armhf/repo/
+
             - name: Compiling
               run: |
                   sudo chroot /chroot/armhf /bin/bash -c "
                       apt-get update && apt-get install -y make gcc git
-                      cd ${{ github.workspace }}
+                      cd /repo
                       chmod +x project/luajit/scripts/Linux-Building.sh
                       ./project/luajit/scripts/Linux-Building.sh armv7
                   "
+
+            - name: Copy artifacts from chroot
+              run: sudo cp -r /chroot/armhf/repo/LuaJIT/build/armv7 ./LuaJIT/build/armv7
 
             - name: Upload Artifact
               uses: actions/upload-artifact@main
