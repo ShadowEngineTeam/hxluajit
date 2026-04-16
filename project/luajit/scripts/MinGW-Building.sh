@@ -12,7 +12,7 @@ elif [ "$ARCH" = "arm64" ]; then
     MTUNE="generic"
 else
     CROSS="x86_64-w64-mingw32-"
-    NATIVE_ARCH="x64"
+    NATIVE_ARCH="x86-64"
     MTUNE="haswell"
 fi
 
