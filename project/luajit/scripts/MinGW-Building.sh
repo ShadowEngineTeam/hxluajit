@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ARCH=${1:-x64}
+ARCH=${1:-x86_64}
 
 if [ "$ARCH" = "x86" ]; then
     CROSS="i686-w64-mingw32-"

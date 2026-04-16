@@ -1,7 +1,7 @@
 @echo off
 
 set ARCH=%1
-if "%ARCH%"=="" set ARCH=x64
+if "%ARCH%"=="" set ARCH=x86_64
 
 if exist LuaJIT (
     cd LuaJIT
