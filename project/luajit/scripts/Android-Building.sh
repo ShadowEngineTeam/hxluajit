@@ -36,11 +36,33 @@ build_arch()
 	local cc=$3
 	local host_cc=$4
 
+	local TARGET_CFLAGS=""
+	case "$arch" in
+		arm64)
+			TARGET_CFLAGS="-march=armv8-a"
+			;;
+		armv7a)
+			TARGET_CFLAGS="-mfloat-abi=hard -mfpu=neon-vfpv4 -march=armv7-a"
+			;;
+		x86_64)
+			TARGET_CFLAGS="-march=x86-64 -mtune=haswell"
+			;;
+		x86)
+			TARGET_CFLAGS="-march=i686 -msse3 -mtune=generic"
+			;;
+	esac
+
 	make clean
 	make -j$JOBS HOST_CC="gcc $host_cc" CC=clang CROSS="$NDKBIN/$cross_prefix" \
-		STATIC_CC="$NDKBIN/$cc -fPIC" DYNAMIC_CC="$NDKBIN/$cc -fPIC" TARGET_SYS=Linux \
-		TARGET_LD="$NDKBIN/$cc" TARGET_LDFLAGS="-fuse-ld=lld" TARGET_AR="$NDKBIN/llvm-ar rcus" \
-		TARGET_STRIP="$NDKBIN/llvm-strip"
+		STATIC_CC="$NDKBIN/$cc -fPIC" \
+		DYNAMIC_CC="$NDKBIN/$cc -fPIC" \
+		TARGET_SYS=Linux \
+		TARGET_LD="$NDKBIN/$cc" \
+		TARGET_LDFLAGS="-fuse-ld=lld" \
+		TARGET_AR="$NDKBIN/llvm-ar rcus" \
+		TARGET_STRIP="$NDKBIN/llvm-strip" \
+		TARGET_CFLAGS="$TARGET_CFLAGS" \
+		CCOPT="-O3 -funroll-loops -fomit-frame-pointer"
 	cp src/libluajit.a build/libluajit-$arch.a
 }
 

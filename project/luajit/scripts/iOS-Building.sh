@@ -25,22 +25,28 @@ export MACOSX_DEPLOYMENT_TARGET=10.9
 ISDKP=$(xcrun --sdk iphoneos --show-sdk-path)
 ICC=$(xcrun --sdk iphoneos --find clang)
 
-ISDKF="-arch arm64 -isysroot $ISDKP -mios-version-min=8.0"
+ISDKF="-arch arm64 -isysroot $ISDKP -mios-version-min=8.0 -march=armv8-a"
 make clean TARGET_SYS=iOS
-make -j$JOBS CC="clang" CROSS="$(dirname $ICC)/" TARGET_FLAGS="$ISDKF" TARGET_SYS=iOS
+make -j$JOBS CC="clang" CROSS="$(dirname $ICC)/" \
+	TARGET_FLAGS="$ISDKF" TARGET_SYS=iOS \
+	CCOPT="-O3 -funroll-loops -fomit-frame-pointer"
 cp src/libluajit.a build/libluajit_device.a
 
 ISDKP=$(xcrun --sdk iphonesimulator --show-sdk-path)
 ICC=$(xcrun --sdk iphonesimulator --find clang)
 
-ISDKF="-arch x86_64 -isysroot $ISDKP -mios-simulator-version-min=8.0"
+ISDKF="-arch x86_64 -isysroot $ISDKP -mios-simulator-version-min=8.0 -march=x86-64 -mtune=haswell"
 make clean TARGET_SYS=iOS
-make -j$JOBS CC="clang" CROSS="$(dirname $ICC)/" TARGET_FLAGS="$ISDKF" TARGET_SYS=iOS
+make -j$JOBS CC="clang" CROSS="$(dirname $ICC)/" \
+	TARGET_FLAGS="$ISDKF" TARGET_SYS=iOS \
+	CCOPT="-O3 -funroll-loops -fomit-frame-pointer"
 cp src/libluajit.a build/libluajit_x86_64_sim.a
 
-ISDKF="-arch arm64 -isysroot $ISDKP -mios-simulator-version-min=8.0"
+ISDKF="-arch arm64 -isysroot $ISDKP -mios-simulator-version-min=8.0 -march=armv8-a"
 make clean TARGET_SYS=iOS
-make -j$JOBS CC="clang" CROSS="$(dirname $ICC)/" TARGET_FLAGS="$ISDKF" TARGET_SYS=iOS
+make -j$JOBS CC="clang" CROSS="$(dirname $ICC)/" \
+	TARGET_FLAGS="$ISDKF" TARGET_SYS=iOS \
+	CCOPT="-O3 -funroll-loops -fomit-frame-pointer"
 cp src/libluajit.a build/libluajit_arm64_sim.a
 
 cp src/{lua.hpp,lauxlib.h,lua.h,luaconf.h,lualib.h,luajit.h} build/include

@@ -20,14 +20,16 @@ else
     JOBS=4
 fi
 
-export MACOSX_DEPLOYMENT_TARGET=10.7
+export MACOSX_DEPLOYMENT_TARGET=10.9
 
 make clean
-make -j$JOBS TARGET_FLAGS="-arch x86_64"
+make -j$JOBS TARGET_FLAGS="-arch x86_64 -mtune=haswell" \
+	CCOPT="-O3 -funroll-loops -fomit-frame-pointer"
 cp src/libluajit.a build/libluajit_x86_64.a
 
 make clean
-make -j$JOBS TARGET_FLAGS="-arch arm64"
+make -j$JOBS TARGET_FLAGS="-arch arm64 -march=armv8-a" \
+	CCOPT="-O3 -funroll-loops -fomit-frame-pointer"
 cp src/libluajit.a build/libluajit_arm64.a
 
 cp src/{lua.hpp,lauxlib.h,lua.h,luaconf.h,lualib.h,luajit.h} build/include
