@@ -114,13 +114,12 @@ jobs:
                   if-no-files-found: warn
     Linux-x86:
         runs-on: ubuntu-latest
-        container: i386/debian:bookworm
         steps:
             - name: Checkout
               uses: actions/checkout@main
 
             - name: Install deps
-              run: apt-get update && apt-get install -y make gcc
+              run: sudo apt-get update && sudo apt-get install -y gcc-multilib libc6-dev-i386
 
             - name: Compiling
               run: chmod +x project/luajit/scripts/Linux-Building.sh && ./project/luajit/scripts/Linux-Building.sh x86
@@ -147,7 +146,7 @@ jobs:
                   path: LuaJIT/build/x64
                   if-no-files-found: warn
     Linux-arm64:
-        runs-on: ubuntu-latest
+        runs-on: ubuntu-22.04-arm
         steps:
             - name: Checkout
               uses: actions/checkout@main
@@ -163,7 +162,6 @@ jobs:
                   if-no-files-found: warn
     Linux-armv7:
         runs-on: ubuntu-24.04-arm
-        container: arm32v7/debian:bookworm
         steps:
             - name: Checkout
               uses: actions/checkout@main
