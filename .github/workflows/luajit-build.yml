@@ -118,11 +118,30 @@ jobs:
             - name: Checkout
               uses: actions/checkout@main
 
-            - name: Install deps
-              run: sudo apt-get update && sudo apt-get install -y gcc-multilib libc6-dev-i386
+            - name: Setup i386 chroot
+              run: |
+                  sudo apt-get update
+                  sudo apt-get install -y debootstrap schroot
+                  
+                  sudo debootstrap --arch=i386 bookworm /chroot/i386 http://deb.debian.org/debian
+                  
+                  sudo sh -c 'cat > /etc/schroot/chroot.d/i386.conf << EOF
+                  [i386]
+                  description=Debian i386
+                  type=directory
+                  profile=default
+                  directory=/chroot/i386
+                  users=runner
+                  EOF'
 
             - name: Compiling
-              run: chmod +x project/luajit/scripts/Linux-Building.sh && ./project/luajit/scripts/Linux-Building.sh x86
+              run: |
+                  sudo chroot /chroot/i386 /bin/bash -c "
+                      apt-get update && apt-get install -y make gcc git
+                      cd ${{ github.workspace }}
+                      chmod +x project/luajit/scripts/Linux-Building.sh
+                      ./project/luajit/scripts/Linux-Building.sh x86
+                  "
 
             - name: Upload Artifact
               uses: actions/upload-artifact@main
@@ -166,8 +185,30 @@ jobs:
             - name: Checkout
               uses: actions/checkout@main
 
+            - name: Setup armhf chroot
+              run: |
+                  sudo apt-get update
+                  sudo apt-get install -y debootstrap schroot
+                  
+                  sudo debootstrap --arch=armhf bookworm /chroot/armhf http://deb.debian.org/debian
+                  
+                  sudo sh -c 'cat > /etc/schroot/chroot.d/armhf.conf << EOF
+                  [armhf]
+                  description=Debian armhf
+                  type=directory
+                  profile=default
+                  directory=/chroot/armhf
+                  users=runner
+                  EOF'
+
             - name: Compiling
-              run: chmod +x project/luajit/scripts/Linux-Building.sh && ./project/luajit/scripts/Linux-Building.sh armv7
+              run: |
+                  sudo chroot /chroot/armhf /bin/bash -c "
+                      apt-get update && apt-get install -y make gcc git
+                      cd ${{ github.workspace }}
+                      chmod +x project/luajit/scripts/Linux-Building.sh
+                      ./project/luajit/scripts/Linux-Building.sh armv7
+                  "
 
             - name: Upload Artifact
               uses: actions/upload-artifact@main
