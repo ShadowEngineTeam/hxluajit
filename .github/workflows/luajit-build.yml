@@ -134,15 +134,14 @@ jobs:
                   users=runner
                   EOF'
 
-            - name: Copy files to chroot
-              run: |
                   sudo mkdir -p /chroot/i386/repo
                   sudo cp -r . /chroot/i386/repo/
+
+                  sudo chroot /chroot/i386 /bin/bash -c "apt-get update && apt-get install -y make gcc git"
 
             - name: Compiling
               run: |
                   sudo chroot /chroot/i386 /bin/bash -c "
-                      apt-get update && apt-get install -y make gcc git
                       cd /repo
                       chmod +x project/luajit/scripts/Linux-Building.sh
                       ./project/luajit/scripts/Linux-Building.sh x86
@@ -209,15 +208,14 @@ jobs:
                   users=runner
                   EOF'
 
-            - name: Copy files to chroot
-              run: |
                   sudo mkdir -p /chroot/armhf/repo
                   sudo cp -r . /chroot/armhf/repo/
+
+                  sudo chroot /chroot/armhf /bin/bash -c "apt-get update && apt-get install -y make gcc git"
 
             - name: Compiling
               run: |
                   sudo chroot /chroot/armhf /bin/bash -c "
-                      apt-get update && apt-get install -y make gcc git
                       cd /repo
                       chmod +x project/luajit/scripts/Linux-Building.sh
                       ./project/luajit/scripts/Linux-Building.sh armv7
