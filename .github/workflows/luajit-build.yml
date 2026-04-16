@@ -1,7 +1,7 @@
 name: Build-LuaJIT
 on: workflow_dispatch
 jobs:
-    Windows:
+    Windows-x86:
         runs-on: windows-latest
         steps:
             - name: Checkout
@@ -9,17 +9,59 @@ jobs:
 
             - name: Setup MSVC
               uses: ilammy/msvc-dev-cmd@v1
+              with:
+                  arch: x86
 
             - name: Compiling
-              run: ./project/luajit/scripts/Windows-Building.bat
+              run: ./project/luajit/scripts/Windows-Building.bat x86
 
             - name: Upload Artifact
               uses: actions/upload-artifact@main
               with:
-                  name: Windows
-                  path: LuaJIT/build
+                  name: Windows-x86
+                  path: LuaJIT/build/x86
                   if-no-files-found: warn
-    Windows-MinGW:
+    Windows-x64:
+        runs-on: windows-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@main
+
+            - name: Setup MSVC
+              uses: ilammy/msvc-dev-cmd@v1
+              with:
+                  arch: x64
+
+            - name: Compiling
+              run: ./project/luajit/scripts/Windows-Building.bat x64
+
+            - name: Upload Artifact
+              uses: actions/upload-artifact@main
+              with:
+                  name: Windows-x64
+                  path: LuaJIT/build/x64
+                  if-no-files-found: warn
+    Windows-arm64:
+        runs-on: windows-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@main
+
+            - name: Setup MSVC
+              uses: ilammy/msvc-dev-cmd@v1
+              with:
+                  arch: arm64
+
+            - name: Compiling
+              run: ./project/luajit/scripts/Windows-Building.bat arm64
+
+            - name: Upload Artifact
+              uses: actions/upload-artifact@main
+              with:
+                  name: Windows-arm64
+                  path: LuaJIT/build/arm64
+                  if-no-files-found: warn
+    MinGW-x64:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout
@@ -29,13 +71,31 @@ jobs:
               run: sudo apt update && sudo apt install mingw-w64 -y
 
             - name: Compiling
-              run: chmod +x project/luajit/scripts/MinGW-Building.sh && ./project/luajit/scripts/MinGW-Building.sh
+              run: chmod +x project/luajit/scripts/MinGW-Building.sh && ./project/luajit/scripts/MinGW-Building.sh x64
 
             - name: Upload Artifact
               uses: actions/upload-artifact@main
               with:
-                  name: Windows-MinGW
-                  path: LuaJIT/build
+                  name: MinGW-x64
+                  path: LuaJIT/build/x64
+                  if-no-files-found: warn
+    MinGW-x86:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@main
+
+            - name: Setup MinGW
+              run: sudo apt update && sudo apt install mingw-w64 -y
+
+            - name: Compiling
+              run: chmod +x project/luajit/scripts/MinGW-Building.sh && ./project/luajit/scripts/MinGW-Building.sh x86
+
+            - name: Upload Artifact
+              uses: actions/upload-artifact@main
+              with:
+                  name: MinGW-x86
+                  path: LuaJIT/build/x86
                   if-no-files-found: warn
     MacOS:
         runs-on: macos-latest
@@ -52,20 +112,70 @@ jobs:
                   name: Macos
                   path: LuaJIT/build
                   if-no-files-found: warn
-    Linux:
+    Linux-x86:
+        runs-on: ubuntu-latest
+        container: i386/debian:bookworm
+        steps:
+            - name: Checkout
+              uses: actions/checkout@main
+
+            - name: Install deps
+              run: apt-get update && apt-get install -y make gcc
+
+            - name: Compiling
+              run: chmod +x project/luajit/scripts/Linux-Building.sh && ./project/luajit/scripts/Linux-Building.sh x86
+
+            - name: Upload Artifact
+              uses: actions/upload-artifact@main
+              with:
+                  name: Linux-x86
+                  path: LuaJIT/build/x86
+                  if-no-files-found: warn
+    Linux-x64:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout
               uses: actions/checkout@main
 
             - name: Compiling
-              run: chmod +x project/luajit/scripts/Linux-Building.sh && ./project/luajit/scripts/Linux-Building.sh
+              run: chmod +x project/luajit/scripts/Linux-Building.sh && ./project/luajit/scripts/Linux-Building.sh x64
 
             - name: Upload Artifact
               uses: actions/upload-artifact@main
               with:
-                  name: Linux
-                  path: LuaJIT/build
+                  name: Linux-x64
+                  path: LuaJIT/build/x64
+                  if-no-files-found: warn
+    Linux-arm64:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@main
+
+            - name: Compiling
+              run: chmod +x project/luajit/scripts/Linux-Building.sh && ./project/luajit/scripts/Linux-Building.sh arm64
+
+            - name: Upload Artifact
+              uses: actions/upload-artifact@main
+              with:
+                  name: Linux-arm64
+                  path: LuaJIT/build/arm64
+                  if-no-files-found: warn
+    Linux-armv7:
+        runs-on: ubuntu-24.04-arm
+        container: arm32v7/debian:bookworm
+        steps:
+            - name: Checkout
+              uses: actions/checkout@main
+
+            - name: Compiling
+              run: chmod +x project/luajit/scripts/Linux-Building.sh && ./project/luajit/scripts/Linux-Building.sh armv7
+
+            - name: Upload Artifact
+              uses: actions/upload-artifact@main
+              with:
+                  name: Linux-armv7
+                  path: LuaJIT/build/armv7
                   if-no-files-found: warn
     iOS:
         runs-on: macos-latest
@@ -101,7 +211,7 @@ jobs:
                   path: LuaJIT/build
                   if-no-files-found: warn
     Publisher:
-        needs: [Windows, Windows-MinGW, MacOS, Linux, iOS, Android]
+        needs: [Windows-x86, Windows-x64, Windows-arm64, MinGW-x64, MinGW-x86, MacOS, Linux-x86, Linux-x64, Linux-arm64, Linux-armv7, iOS, Android]
         runs-on: ubuntu-24.04
         permissions:
             contents: write
@@ -111,17 +221,35 @@ jobs:
               with:
                   ref: ${{ github.head_ref }}
 
-            - name: Download Windows Artifacts
+            - name: Download Windows-x86 Artifacts
               uses: actions/download-artifact@main
               with:
-                  name: Windows
-                  path: ./LuaJIT/windows
+                  name: Windows-x86
+                  path: ./LuaJIT/windows-x86
 
-            - name: Download Windows-MinGW Artifacts
+            - name: Download Windows-x64 Artifacts
               uses: actions/download-artifact@main
               with:
-                  name: Windows-MinGW
-                  path: ./LuaJIT/windows-mingw
+                  name: Windows-x64
+                  path: ./LuaJIT/windows-x64
+
+            - name: Download Windows-arm64 Artifacts
+              uses: actions/download-artifact@main
+              with:
+                  name: Windows-arm64
+                  path: ./LuaJIT/windows-arm64
+
+            - name: Download MinGW-x64 Artifacts
+              uses: actions/download-artifact@main
+              with:
+                  name: MinGW-x64
+                  path: ./LuaJIT/mingw-x64
+
+            - name: Download MinGW-x86 Artifacts
+              uses: actions/download-artifact@main
+              with:
+                  name: MinGW-x86
+                  path: ./LuaJIT/mingw-x86
 
             - name: Download MacOS Artifacts
               uses: actions/download-artifact@main
@@ -129,11 +257,29 @@ jobs:
                   name: Macos
                   path: ./LuaJIT/macos
 
-            - name: Download Linux Artifacts
+            - name: Download Linux-x86 Artifacts
               uses: actions/download-artifact@main
               with:
-                  name: Linux
-                  path: ./LuaJIT/linux
+                  name: Linux-x86
+                  path: ./LuaJIT/linux-x86
+
+            - name: Download Linux-x64 Artifacts
+              uses: actions/download-artifact@main
+              with:
+                  name: Linux-x64
+                  path: ./LuaJIT/linux-x64
+
+            - name: Download Linux-arm64 Artifacts
+              uses: actions/download-artifact@main
+              with:
+                  name: Linux-arm64
+                  path: ./LuaJIT/linux-arm64
+
+            - name: Download Linux-armv7 Artifacts
+              uses: actions/download-artifact@main
+              with:
+                  name: Linux-armv7
+                  path: ./LuaJIT/linux-armv7
 
             - name: Download iOS Artifacts
               uses: actions/download-artifact@main
@@ -165,14 +311,20 @@ jobs:
                   rm -rf ./project/luajit/lib/Android/*
                   rm -rf ./project/luajit/include/*
 
-                  cp -r ./LuaJIT/windows/lua51.lib ./project/luajit/lib/Windows/lua51.lib
-                  cp -r ./LuaJIT/windows/include/* ./project/luajit/include
-                  cp -r ./LuaJIT/windows-mingw/libluajit.a ./project/luajit/lib/MinGW/libluajit.a
-                  cp -r ./LuaJIT/windows-mingw/include/* ./project/luajit/include
+                  cp -r ./LuaJIT/windows-x86/lua51.lib ./project/luajit/lib/Windows/lua51-x86.lib
+                  cp -r ./LuaJIT/windows-x64/lua51.lib ./project/luajit/lib/Windows/lua51-x64.lib
+                  cp -r ./LuaJIT/windows-arm64/lua51.lib ./project/luajit/lib/Windows/lua51-arm64.lib
+                  cp -r ./LuaJIT/windows-x86/include/* ./project/luajit/include
+                  cp -r ./LuaJIT/mingw-x64/libluajit.a ./project/luajit/lib/MinGW/libluajit-x64.a
+                  cp -r ./LuaJIT/mingw-x86/libluajit.a ./project/luajit/lib/MinGW/libluajit-x86.a
+                  cp -r ./LuaJIT/mingw-x64/include/* ./project/luajit/include
                   cp -r ./LuaJIT/macos/libluajit.a ./project/luajit/lib/MacOS/libluajit.a
                   cp -r ./LuaJIT/macos/include/* ./project/luajit/include
-                  cp -r ./LuaJIT/linux/libluajit.a ./project/luajit/lib/Linux/libluajit.a
-                  cp -r ./LuaJIT/linux/include/* ./project/luajit/include
+                  cp -r ./LuaJIT/linux-x86/libluajit.a ./project/luajit/lib/Linux/libluajit-x86.a
+                  cp -r ./LuaJIT/linux-x64/libluajit.a ./project/luajit/lib/Linux/libluajit-x64.a
+                  cp -r ./LuaJIT/linux-arm64/libluajit.a ./project/luajit/lib/Linux/libluajit-arm64.a
+                  cp -r ./LuaJIT/linux-armv7/libluajit.a ./project/luajit/lib/Linux/libluajit-armv7.a
+                  cp -r ./LuaJIT/linux-x64/include/* ./project/luajit/include
                   cp -r ./LuaJIT/ios/libluajit_device.a ./project/luajit/lib/iOS/libluajit_device.a
                   cp -r ./LuaJIT/ios/libluajit_sim.a ./project/luajit/lib/iOS/libluajit_sim.a
                   cp -r ./LuaJIT/ios/include/* ./project/luajit/include/

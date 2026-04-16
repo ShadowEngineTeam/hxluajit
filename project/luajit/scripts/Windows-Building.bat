@@ -1,5 +1,8 @@
 @echo off
 
+set ARCH=%1
+if "%ARCH%"=="" set ARCH=x64
+
 if exist LuaJIT (
     cd LuaJIT
     git checkout v2.1
@@ -13,22 +16,26 @@ if not exist build (
     mkdir build
 )
 
-if not exist build\include (
-    mkdir build\include
+if not exist build\%ARCH% (
+    mkdir build\%ARCH%
+)
+
+if not exist build\%ARCH%\include (
+    mkdir build\%ARCH%\include
 )
 
 cd src
 
-call msvcbuild.bat static
+call msvcbuild.bat static %ARCH%
 
 cd ..
 
-xcopy /Y /Q src\lua51.lib build\*
-xcopy /Y /Q src\lua.hpp build\include\*
-xcopy /Y /Q src\lauxlib.h build\include\*
-xcopy /Y /Q src\lua.h build\include\*
-xcopy /Y /Q src\luaconf.h build\include\*
-xcopy /Y /Q src\lualib.h build\include\*
-xcopy /Y /Q src\luajit.h build\include\*
+xcopy /Y /Q src\lua51.lib build\%ARCH%\*
+xcopy /Y /Q src\lua.hpp build\%ARCH%\include\*
+xcopy /Y /Q src\lauxlib.h build\%ARCH%\include\*
+xcopy /Y /Q src\lua.h build\%ARCH%\include\*
+xcopy /Y /Q src\luaconf.h build\%ARCH%\include\*
+xcopy /Y /Q src\lualib.h build\%ARCH%\include\*
+xcopy /Y /Q src\luajit.h build\%ARCH%\include\*
 
 cd ..

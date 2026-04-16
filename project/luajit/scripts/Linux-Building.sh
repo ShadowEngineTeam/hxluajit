@@ -1,5 +1,17 @@
 #!/bin/bash
 
+ARCH=${1:-x64}
+
+if [ "$ARCH" = "x86" ]; then
+    MARCH="i686"
+elif [ "$ARCH" = "arm64" ]; then
+    MARCH="armv8-a"
+elif [ "$ARCH" = "armv7" ]; then
+    MARCH="armv7-a+simd"
+else
+    MARCH="x86-64"
+fi
+
 if [ -d "LuaJIT" ]; then
     cd LuaJIT
     git checkout v2.1
@@ -9,8 +21,8 @@ else
     cd LuaJIT
 fi
 
-mkdir -p build
-mkdir -p build/include
+mkdir -p build/$ARCH
+mkdir -p build/$ARCH/include
 
 if command -v nproc &> /dev/null; then
     JOBS=$(nproc)
@@ -21,10 +33,10 @@ else
 fi
 
 make clean
-make -j$JOBS TARGET_FLAGS="-march=x86-64"
-cp src/libluajit.a build/libluajit.a
+make -j$JOBS TARGET_FLAGS="-march=$MARCH"
+cp src/libluajit.a build/$ARCH/libluajit.a
 
-cp src/{lua.hpp,lauxlib.h,lua.h,luaconf.h,lualib.h,luajit.h} build/include
+cp src/{lua.hpp,lauxlib.h,lua.h,luaconf.h,lualib.h,luajit.h} build/$ARCH/include
 
 rm -f *.o
 
