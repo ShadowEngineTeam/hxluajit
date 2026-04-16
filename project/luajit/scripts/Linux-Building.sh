@@ -21,7 +21,7 @@ if [ -d "LuaJIT" ]; then
     git checkout v2.1
     git pull origin v2.1
 else
-    git clone https://github.com/LuaJIT/LuaJIT.git -b v2.1 --depth 1
+    git clone https://github.com/ShadowEngineTeam/LuaJIT.git -b v2.1 --depth 1
     cd LuaJIT
 fi
 
