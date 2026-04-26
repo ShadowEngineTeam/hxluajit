@@ -26,7 +26,7 @@ if not exist build\%ARCH%\include (
 
 cd src
 
-call msvcbuild.bat static %ARCH%
+call msvcbuild.bat debug static %ARCH%
 
 cd ..
 
