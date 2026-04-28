@@ -163,7 +163,7 @@ jobs:
                   sudo mkdir -p /chroot/i386/repo
                   sudo cp -r . /chroot/i386/repo/
 
-                  sudo chroot /chroot/i386 /bin/bash -c "apt-get update && apt-get install -y make gcc git"
+                  sudo chroot /chroot/i386 /bin/bash -c "apt-get update && apt-get install -y make gcc clang git"
 
             - name: Compiling
               run: |
@@ -237,7 +237,7 @@ jobs:
                   sudo mkdir -p /chroot/armhf/repo
                   sudo cp -r . /chroot/armhf/repo/
 
-                  sudo chroot /chroot/armhf /bin/bash -c "apt-get update && apt-get install -y make gcc git"
+                  sudo chroot /chroot/armhf /bin/bash -c "apt-get update && apt-get install -y make gcc clang git"
 
             - name: Compiling
               run: |
