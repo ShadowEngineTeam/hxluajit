@@ -3,15 +3,15 @@
 ARCH=${1:-x86_64}
 
 if [ "$ARCH" = "x86" ]; then
-    CROSS="i686-w64-mingw32-"
+    CC_TARGET="i686-w64-windows-gnu"
     NATIVE_ARCH="i686"
     MTUNE="generic"
 elif [ "$ARCH" = "arm64" ]; then
-    CROSS="aarch64-w64-mingw32-"
+    CC_TARGET="aarch64-w64-windows-gnu"
     NATIVE_ARCH="arm64"
     MTUNE="generic"
 else
-    CROSS="x86_64-w64-mingw32-"
+    CC_TARGET="x86_64-w64-windows-gnu"
     NATIVE_ARCH="x86-64"
     MTUNE="haswell"
 fi
@@ -37,9 +37,7 @@ else
 fi
 
 make clean
-make -j$JOBS HOST_CC=gcc CROSS=$CROSS BUILDMODE=static TARGET_SYS=Windows \
-	TARGET_FLAGS="-march=$NATIVE_ARCH -mtune=$MTUNE" \
-	CCOPT="-O3 -funroll-loops -fomit-frame-pointer"
+make -j$JOBS HOST_CC="clang" CC="clang --target=$CC_TARGET" AR="llvm-ar" BUILDMODE=static TARGET_SYS=Windows TARGET_FLAGS="-march=$NATIVE_ARCH -mtune=$MTUNE" CCOPT="-O3 -funroll-loops -fomit-frame-pointer"
 cp src/libluajit.a build/$ARCH/libluajit.a
 
 cp src/{lua.hpp,lauxlib.h,lua.h,luaconf.h,lualib.h,luajit.h} build/$ARCH/include
