@@ -9,8 +9,9 @@ elif [ "$ARCH" = "arm64" ]; then
     MARCH="armv8-a"
     MTUNE="generic"
 elif [ "$ARCH" = "armv7" ]; then
-    MARCH="armv7-a+neon"
+    MARCH="armv7-a"
     MTUNE="cortex-a15"
+    MFPU="neon"
 else
     MARCH="x86-64"
     MTUNE="haswell"
@@ -37,7 +38,7 @@ else
 fi
 
 make clean
-make -j$JOBS TARGET_FLAGS="-march=$MARCH -mtune=$MTUNE" CC="clang" CXX="clang++" CCOPT="-O3 -funroll-loops -fomit-frame-pointer"
+make -j$JOBS TARGET_FLAGS="-march=$MARCH -mtune=$MTUNE ${MFPU:+-mfpu=$MFPU}" CC="clang" CXX="clang++" CCOPT="-O3 -funroll-loops -fomit-frame-pointer"
 cp src/libluajit.a build/$ARCH/libluajit.a
 
 cp src/{lua.hpp,lauxlib.h,lua.h,luaconf.h,lualib.h,luajit.h} build/$ARCH/include
