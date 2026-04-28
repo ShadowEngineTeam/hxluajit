@@ -68,7 +68,7 @@ jobs:
               uses: actions/checkout@main
 
             - name: Setup MinGW
-              run: sudo apt update && sudo apt install mingw-w64 -y
+              run: sudo apt update && sudo apt install mingw-w64 clang -y
 
             - name: Compiling
               run: chmod +x project/luajit/scripts/MinGW-Building.sh && ./project/luajit/scripts/MinGW-Building.sh x86_64
@@ -104,7 +104,7 @@ jobs:
                   sudo mkdir -p /chroot/i386/repo
                   sudo cp -r . /chroot/i386/repo/
 
-                  sudo chroot /chroot/i386 /bin/bash -c "apt-get update && apt-get install -y make gcc git mingw-w64"
+                  sudo chroot /chroot/i386 /bin/bash -c "apt-get update && apt-get install -y make gcc clang git mingw-w64"
 
             - name: Compiling
               run: |
